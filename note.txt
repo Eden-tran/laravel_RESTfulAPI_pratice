@@ -1,0 +1,11 @@
+các cách test API
+- Postman
+- VSCODE Extension
+- Các dịch vụ test Online
+XÂY DỤNG CRUD API
+- GET /USER =>LẤY TẤT CẢ TÀI NGUYÊN
+- GET /USER/ID => LẤY 1 TÀI NGUYÊN THEO ID
+- POST /USER => THÊM MỚI TÀI NGUYENE
+- PUT /USER/ID => CẬP NHẬT TẤT CẢ CÁC TRƯỜNG CỦA 1 TÀI NGUYÊN (THEO ID)
+- PATCH /USER/ID => CẬP NHẬT 1 VÀI TRƯỜNG CỦA 1 TÀI NGUYÊN (THEO ID)
+- DELETE /USER/ID => XÓA 1 TÀI NGUYÊN
