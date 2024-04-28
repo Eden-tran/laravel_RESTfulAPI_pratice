@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{id}', function ($id) {
-    return $id;
-    // return view('welcome');
+// Route::get('/{id}', function ($id) {
+//     return $id;
+//     // return view('welcome');
+// });
+Route::get('/setup', function () {
+    $credentials = [
+        'email' => 'admin123@gmail.com',
+        'password' => '123456',
+    ];
+    $per = [
+        'customer', 'invoice'
+    ];
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        $token = $user->createToken('admin', $per)->accessToken;
+        return [
+            $token
+        ];
+    } else {
+        $user = new \App\Models\User();
+        $user->name = 'admin';
+        $user->email = $credentials['email'];
+        $user->password = Hash::make($credentials['password']);
+        $user->save();
+    }
 });

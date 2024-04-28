@@ -49,8 +49,10 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        //
+
+        return new CustomerResource(Customer::create($request->all()));
     }
+
 
     /**
      * Display the specified resource.
@@ -60,6 +62,10 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
+        $includeInvoices = request()->query('includeInvoices');
+        if ($includeInvoices) {
+            return new CustomerResource($customer->loadMissing('invoices'));
+        }
         return new CustomerResource($customer);
     }
 
@@ -84,7 +90,8 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        //
+        $customer->update($request->all());
+        return new CustomerResource($customer);
     }
 
     /**

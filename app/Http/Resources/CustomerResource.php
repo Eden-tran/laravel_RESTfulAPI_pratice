@@ -19,6 +19,10 @@ class CustomerResource extends JsonResource
             'name' => $this->name,
             'type' => $this->type,
             'postalCode' => $this->postal_code,
+            'email' => $this->email,
+            'address' => $this->address,
+            'city' => $this->city,
+            'state' => $this->state,
             'invoices' => InvoiceResource::collection($this->whenLoaded('invoices')),
         ];
         // return parent::toArray($request);

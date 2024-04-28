@@ -28,5 +28,10 @@ class AuthServiceProvider extends ServiceProvider
         Passport::routes();
         Passport::tokensExpireIn(now()->addDays(60));
         Passport::refreshTokensExpireIn(now()->addDays(7));
+        Passport::tokensCan([
+            'customer' => 'Customer Module',
+            'invoice' => 'Invoice Module',
+        ]);
+
     }
 }
