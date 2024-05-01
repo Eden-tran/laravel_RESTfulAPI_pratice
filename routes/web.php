@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -18,27 +19,33 @@ use Illuminate\Support\Facades\Route;
 //     return $id;
 //     // return view('welcome');
 // });
+Route::get('check', function () {
+    $user = User::find(3);
+    dd($user->tokens()->accessToken);
+});
 Route::get('/setup', function () {
-  $credentials = [
-    'email' => 'admin123@gmail.com',
-    'password' => '123456',
-  ];
-  $per = [
-    'customer', 'invoice'
-  ];
-  if (Auth::attempt($credentials)) {
-    $user = Auth::user();
-    $token = $user->createToken('admin', $per)->accessToken;
-    return [
-      $token
+    $credentials = [
+        'email' => 'admin123@gmail.com',
+        'password' => '123456',
     ];
-  } else {
-    $user = new \App\Models\User();
-    $user->name = 'admin';
-    $user->email = $credentials['email'];
-    $user->password = Hash::make($credentials['password']);
-    $user->save();
-  }
+    $per = [
+        'customer', 'invoice'
+    ];
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        $token = $user->createToken('admin', $per)->accessToken;
+        $user->token = $token;
+        $user->save();
+        return [
+            $token
+        ];
+    } else {
+        $user = new \App\Models\User();
+        $user->name = 'admin';
+        $user->email = $credentials['email'];
+        $user->password = Hash::make($credentials['password']);
+        $user->save();
+    }
 });
 
 Auth::routes();

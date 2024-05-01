@@ -47,24 +47,27 @@ Route::prefix('users')->name('users.')->middleware('auth:api')->group(function (
     // Route::put(uri, callback);
 });
 
-// Route::apiResource('product', ProductController::class);
-// Route::post('login', [AuthController::class, 'login']);
-// Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::apiResource('product', ProductController::class);
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:api');
+Route::get('token', [AuthController::class, 'getToken'])->middleware('auth:api');
+
 // Route::get('token', [AuthController::class, 'getToken'])->middleware('auth:sanctum');
-// Route::post('refresh-token', [AuthController::class, 'refreshToken']);
-// Route::get('passport-token', function () {
-//     $user = User::find(1);
-//     $tokenResult = $user->createToken('auth_api');
-//     // thiết lập expires
-//     $token = $tokenResult->token;
-//     $token->expires_at = Carbon::now()->addMinutes(60);
-//     // trả về access token
-//     $accessToken = $tokenResult->accessToken;
-//     // trả về expires
-//     $expires = Carbon::parse($token->expires_at)->toDayDateTimeString();
-//     $response = [
-//         'access_token' => $accessToken,
-//         'expires' => $expires,
-//     ];
-//     return $response;
-// });
+Route::post('refresh-token', [AuthController::class, 'refreshToken']);
+Route::get('passport-token', function () {
+    $user = User::find(1);
+    $tokenResult = $user->createToken('auth_api');
+    // thiết lập expires
+    $token = $tokenResult->token;
+    $token->expires_at = Carbon::now()->addMinutes(60);
+    // trả về access token
+    $accessToken = $tokenResult->accessToken;
+    // trả về expires
+    $expires = Carbon::parse($token->expires_at)->toDayDateTimeString();
+    $response = [
+        'access_token' => $accessToken,
+        'expires' => $expires,
+    ];
+    return $response;
+});
+Route::get('destroy', [AuthController::class, 'destroyAll'])->middleware('auth:api');

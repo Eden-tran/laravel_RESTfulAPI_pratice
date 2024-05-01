@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\RefreshTokenRepository;
 
 class AuthController extends Controller
 {
@@ -54,7 +56,7 @@ class AuthController extends Controller
                 //     'token' => $accessToken,
                 //     'expires' => $expires
                 // ];
-                return $response;
+                return $response->json();
             }
 
             // return $client;
@@ -97,10 +99,24 @@ class AuthController extends Controller
 
         return $response;
     }
+    public function destroyAll(Request $request)
+    {
+        $tokenId = $request->user()->token()->id;
+        $tokenRepository = app(TokenRepository::class);
+        $refreshTokenRepository = app(RefreshTokenRepository::class);
+
+        // Revoke an access token...
+        $tokenRepository->revokeAccessToken($tokenId);
+
+        // Revoke all of the token's refresh tokens...
+        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+        return 'successFul destroy';
+    }
     public function getToken(Request $request)
     {
         $user = User::find(1);
         // return $request->user()->tokens;
+        // dd($request->user()->currentAccessToken());
         return $request->user()->currentAccessToken()->delete();
         // return $request->user();
         // $user->tokens()->delete();
@@ -155,7 +171,7 @@ class AuthController extends Controller
                 'client_secret' => $clientSecret,
                 'scope' => '',
             ]);
-            return $response;
+            return $response->json();
         }
     }
 }
