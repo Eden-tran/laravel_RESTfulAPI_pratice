@@ -19,24 +19,28 @@ use Illuminate\Support\Facades\Route;
 //     // return view('welcome');
 // });
 Route::get('/setup', function () {
-    $credentials = [
-        'email' => 'admin123@gmail.com',
-        'password' => '123456',
+  $credentials = [
+    'email' => 'admin123@gmail.com',
+    'password' => '123456',
+  ];
+  $per = [
+    'customer', 'invoice'
+  ];
+  if (Auth::attempt($credentials)) {
+    $user = Auth::user();
+    $token = $user->createToken('admin', $per)->accessToken;
+    return [
+      $token
     ];
-    $per = [
-        'customer', 'invoice'
-    ];
-    if (Auth::attempt($credentials)) {
-        $user = Auth::user();
-        $token = $user->createToken('admin', $per)->accessToken;
-        return [
-            $token
-        ];
-    } else {
-        $user = new \App\Models\User();
-        $user->name = 'admin';
-        $user->email = $credentials['email'];
-        $user->password = Hash::make($credentials['password']);
-        $user->save();
-    }
+  } else {
+    $user = new \App\Models\User();
+    $user->name = 'admin';
+    $user->email = $credentials['email'];
+    $user->password = Hash::make($credentials['password']);
+    $user->save();
+  }
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

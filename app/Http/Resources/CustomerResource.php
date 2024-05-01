@@ -15,6 +15,7 @@ class CustomerResource extends JsonResource
     public function toArray($request)
     {
         return [
+
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
@@ -23,7 +24,7 @@ class CustomerResource extends JsonResource
             'address' => $this->address,
             'city' => $this->city,
             'state' => $this->state,
-            'invoices' => InvoiceResource::collection($this->whenLoaded('invoices')),
+            'invoices' => InvoiceResource::collection($this->whenLoaded('invoices'))
         ];
         // return parent::toArray($request);
     }

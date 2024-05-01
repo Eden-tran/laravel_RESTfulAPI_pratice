@@ -32,6 +32,5 @@ class AuthServiceProvider extends ServiceProvider
             'customer' => 'Customer Module',
             'invoice' => 'Invoice Module',
         ]);
-
     }
 }

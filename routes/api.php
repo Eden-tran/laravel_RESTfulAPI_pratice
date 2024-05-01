@@ -36,16 +36,16 @@ Route::group(['namespace' => 'App\Http\Controllers\API', 'middleware' => 'auth:a
 // sanctum
 // Route::prefix('users')->name('users.')->middleware('auth:sanctum')->group(function () {
 // passport
-// Route::prefix('users')->name('users.')->middleware('auth:api')->group(function () {
-//     // Matches The "/url/users" URL
-//     Route::get('/', [UserController::class, 'index'])->name('index');
-//     Route::get('/{user}', [UserController::class, 'detail'])->name('detail');
-//     Route::post('/', [UserController::class, 'create'])->name('create');
-//     Route::put('/{user}', [UserController::class, 'update'])->name('update-put');
-//     Route::patch('/{user}', [UserController::class, 'update'])->name('update-patch');
-//     Route::delete('/{user}', [UserController::class, 'delete'])->name('delete');
-//     // Route::put(uri, callback);
-// });
+Route::prefix('users')->name('users.')->middleware('auth:api')->group(function () {
+    // Matches The "/url/users" URL
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('/{user}', [UserController::class, 'detail'])->name('detail');
+    Route::post('/', [UserController::class, 'create'])->name('create');
+    Route::put('/{user}', [UserController::class, 'update'])->name('update-put');
+    Route::patch('/{user}', [UserController::class, 'update'])->name('update-patch');
+    Route::delete('/{user}', [UserController::class, 'delete'])->name('delete');
+    // Route::put(uri, callback);
+});
 
 // Route::apiResource('product', ProductController::class);
 // Route::post('login', [AuthController::class, 'login']);
